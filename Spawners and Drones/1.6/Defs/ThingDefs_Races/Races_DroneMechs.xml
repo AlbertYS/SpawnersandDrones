@@ -1,35 +1,98 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 
-
   <!-- Centipede -->
-  
-  <ThingDef ParentName="MechCentipede">
-    <defName>Drone_Centipede</defName>
-    <label>replica centipede</label>
-    <description>Heavy combat mechanoids that glide on dozens of tiny legs. Their thick carpace and firepower makes them very effective against bunched-up static defenders. They are somewhat vulnerable to mobile hit-and-run tactics. \n\nSpacer militaries have always incorporated mechanoids in their ranks, this one is no different from any other.</description>
-    <race>
-      <soundCallIntervalRange>8000~40000</soundCallIntervalRange>
-    </race>
-    <comps>
-      <li Class="SpawnersandDrones.CompProperties_DeathOnDownedChance">
-        <DeathChance>1.0</DeathChance>
+  <ThingDef Abstract="True" Name="DroneCentipede" ParentName="BaseDrone">
+    <description>Heavy combat mechanoids that glide on dozens of tiny legs. Their thick carapace and firepower makes them very effective against bunched-up static defenders. They are somewhat vulnerable to mobile hit-and-run tactics.</description>
+    <statBases>
+      <MoveSpeed>1.9</MoveSpeed>
+      <ArmorRating_Blunt>0.22</ArmorRating_Blunt>
+      <ArmorRating_Sharp>0.72</ArmorRating_Sharp>
+      <PsychicSensitivity>0.75</PsychicSensitivity>
+      <BandwidthCost MayRequire="Ludeon.RimWorld.Biotech">4</BandwidthCost>
+      <MechEnergyLossPerHP  MayRequire="Ludeon.RimWorld.Biotech">0.2</MechEnergyLossPerHP>
+    </statBases>
+    <tools>
+      <li>
+        <label>head</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>17</power>
+        <cooldownTime>2.6</cooldownTime>
+        <linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
       </li>
-    </comps>
+    </tools>
+    <race>
+      <intelligence>ToolUser</intelligence>
+      <thinkTreeMain>Mechanoid</thinkTreeMain>
+      <body>MechanicalCentipede</body>
+      <baseBodySize>3.0</baseBodySize>
+      <baseHealthScale>4.32</baseHealthScale>
+      <lifeStageAges>
+        <li>
+          <def>MechanoidFullyFormed</def>
+          <minAge>0</minAge>
+          <soundWounded>Pawn_Mech_Centipede_Wounded</soundWounded>
+          <soundDeath>Pawn_Mech_Centipede_Death</soundDeath>
+          <soundCall>Pawn_Mech_Centipede_Call</soundCall>
+        </li>
+        <li MayRequire="Ludeon.RimWorld.Biotech">
+          <def>MechanoidFullyFormed</def>
+          <minAge>100</minAge>
+          <soundWounded>Pawn_Mech_Centipede_Wounded</soundWounded>
+          <soundDeath>Pawn_Mech_Centipede_Death</soundDeath>
+          <soundCall>Pawn_Mech_Centipede_Call</soundCall>
+        </li>
+      </lifeStageAges>
+      <soundCallIntervalRange>1000~2000</soundCallIntervalRange>
+      <soundMeleeHitPawn>Pawn_Melee_MechanoidBash_HitPawn</soundMeleeHitPawn>
+      <soundMeleeHitBuilding>Pawn_Melee_MechanoidBash_HitBuilding</soundMeleeHitBuilding>
+      <soundMeleeMiss>Pawn_Melee_MechanoidBash_Miss</soundMeleeMiss>
+      <mechWeightClass>Heavy</mechWeightClass>
+      <detritusLeavings>
+        <li>
+          <def>ChunkMechanoidSlag</def>
+          <texOverrideIndex>10</texOverrideIndex>
+          <spawnChance>0.5</spawnChance>
+        </li>
+        <li>
+          <def>ChunkMechanoidSlag</def>
+          <texOverrideIndex>19</texOverrideIndex>
+          <spawnChance>0.5</spawnChance>
+        </li>
+        <li>
+          <def>ChunkMechanoidSlag</def>
+          <texOverrideIndex>14</texOverrideIndex>
+          <spawnChance>0.5</spawnChance>
+        </li>
+      </detritusLeavings>
+    </race>
     <butcherProducts>
       <Steel>15</Steel>
     </butcherProducts>
   </ThingDef>
 
-  <PawnKindDef ParentName="BaseMechanoidKind">
-    <defName>Drone_Centipede</defName>
-    <label>replica centipede</label>
-    <race>Drone_Centipede</race>
-    <combatPower>400</combatPower>
+  <PawnKindDef Abstract="True" Name="DroneCentipedeBase" ParentName="BaseDroneKind">
     <lifeStages>
+      <li MayRequire="Ludeon.RimWorld.Biotech">
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Mechanoid/CentipedeClean</texPath>
+          <maskPath>Things/Pawn/Mechanoid/AllegianceOverlays/Mech_Centipede</maskPath>
+          <shaderType>CutoutWithOverlay</shaderType>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>3</drawSize>
+          <shadowData>
+            <volume>(0.6, 0.8, 0.6)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
       <li>
         <bodyGraphicData>
           <texPath>Things/Pawn/Mechanoid/Centipede</texPath>
+          <maskPath>Things/Pawn/Mechanoid/AllegianceOverlays/Mech_Centipede</maskPath>
+          <shaderType>CutoutWithOverlay</shaderType>
           <graphicClass>Graphic_Multi</graphicClass>
           <drawSize>3</drawSize>
           <shadowData>
@@ -38,37 +101,156 @@
         </bodyGraphicData>
       </li>
     </lifeStages>
+    <combatPower>400</combatPower>
     <weaponMoney>9999~9999</weaponMoney>
+    <techHediffsChance MayRequire="Ludeon.RimWorld.Biotech">1</techHediffsChance>
+    <techHediffsMoney>9999~9999</techHediffsMoney>
+    <controlGroupPortraitZoom>0.65</controlGroupPortraitZoom>  
+  </PawnKindDef>
+  
+  <!-- Centipede - blaster -->
+  <ThingDef ParentName="DroneCentipede">
+    <defName>Drone_CentipedeBlaster</defName>
+    <label>centipede blaster</label>
+  </ThingDef>  
+
+  <PawnKindDef ParentName="DroneCentipedeBase">
+    <defName>Drone_CentipedeBlaster</defName>
+    <label>centipede blaster</label>
+    <race>Drone_CentipedeBlaster</race>
     <weaponTags>
-      <li>MechanoidGunHeavy</li>
+      <li>ChargeBlasterHeavyGun</li>
     </weaponTags>
   </PawnKindDef>
 
+  <!-- Centipede - minigun -->
+  <ThingDef ParentName="DroneCentipede">
+    <defName>Drone_CentipedeGunner</defName>
+    <label>centipede gunner</label>
+  </ThingDef>
+
+  <PawnKindDef ParentName="DroneCentipedeBase">
+    <defName>Drone_CentipedeGunner</defName>
+    <label>centipede gunner</label>
+    <race>Drone_CentipedeGunner</race>
+    <lifeStages Inherit="False">
+      <li MayRequire="Ludeon.RimWorld.Biotech">
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Mechanoid/CentipedeGunnerClean</texPath>
+          <maskPath>Things/Pawn/Mechanoid/AllegianceOverlays/CentipedeGunner</maskPath>
+          <shaderType>CutoutWithOverlay</shaderType>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>3</drawSize>
+          <shadowData>
+            <volume>(0.6, 0.8, 0.6)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Mechanoid/CentipedeGunner</texPath>
+          <maskPath>Things/Pawn/Mechanoid/AllegianceOverlays/CentipedeGunner</maskPath>
+          <shaderType>CutoutWithOverlay</shaderType>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>3</drawSize>
+          <shadowData>
+            <volume>(0.6, 0.8, 0.6)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+    <weaponTags>
+      <li>Minigun</li>
+    </weaponTags>
+  </PawnKindDef>
+
+  <!-- Centipede - burner -->
+  <ThingDef ParentName="DroneCentipede">
+    <defName>Drone_CentipedeBurner</defName>
+    <label>centipede burner</label>
+  </ThingDef>
+
+  <PawnKindDef ParentName="DroneCentipedeBase">
+    <defName>Drone_CentipedeBurner</defName>
+    <label>centipede burner</label>
+    <race>Drone_CentipedeBurner</race>
+    <lifeStages Inherit="False">
+      <li MayRequire="Ludeon.RimWorld.Biotech">
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Mechanoid/CentipedeBurnerClean</texPath>
+          <maskPath>Things/Pawn/Mechanoid/AllegianceOverlays/CentipedeBurner</maskPath>
+          <shaderType>CutoutWithOverlay</shaderType>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>3</drawSize>
+          <shadowData>
+            <volume>(0.6, 0.8, 0.6)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Mechanoid/CentipedeBurner</texPath>
+          <maskPath>Things/Pawn/Mechanoid/AllegianceOverlays/CentipedeBurner</maskPath>
+          <shaderType>CutoutWithOverlay</shaderType>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>3</drawSize>
+          <shadowData>
+            <volume>(0.6, 0.8, 0.6)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
+    </lifeStages>
+    <weaponTags>
+      <li>InfernoCannonGun</li>
+    </weaponTags>
+  </PawnKindDef>
+
+
   <!-- Walker (lancer/scyther) base -->
 
-  <ThingDef ParentName="BaseMechanoidWalker" Name="BaseReplicaWalker" Abstract="True">
+  <ThingDef ParentName="BaseDrone" Name="BaseDroneWalker" Abstract="True">
+    <statBases>
+      <MoveSpeed>4.7</MoveSpeed>
+      <ArmorRating_Blunt>0.20</ArmorRating_Blunt>
+      <ArmorRating_Sharp>0.40</ArmorRating_Sharp>
+    </statBases>
     <race>
-      <soundCallIntervalRange>8000~40000</soundCallIntervalRange>
+      <intelligence>ToolUser</intelligence>
+      <thinkTreeMain>Mechanoid</thinkTreeMain>
+      <baseBodySize>1.0</baseBodySize>
+      <lifeStageAges>
+        <li>
+          <def>MechanoidFullyFormed</def>
+          <minAge>0</minAge>
+          <soundWounded>Pawn_Mech_Scyther_Wounded</soundWounded>
+          <soundDeath>Pawn_Mech_Scyther_Death</soundDeath>
+          <soundCall>Pawn_Mech_Scyther_Call</soundCall>
+        </li>
+        <li MayRequire="Ludeon.RimWorld.Biotech">
+          <def>MechanoidFullyFormed</def>
+          <minAge>100</minAge>
+          <soundWounded>Pawn_Mech_Scyther_Wounded</soundWounded>
+          <soundDeath>Pawn_Mech_Scyther_Death</soundDeath>
+          <soundCall>Pawn_Mech_Scyther_Call</soundCall>
+        </li>
+      </lifeStageAges>
+      <mechWeightClass>Medium</mechWeightClass>
     </race>
-    <comps>
-      <li Class="SpawnersandDrones.CompProperties_DeathOnDownedChance">
-        <DeathChance>1.0</DeathChance>
-      </li>
-    </comps>
     <butcherProducts>
-      <Steel>10</Steel>
+      <Steel>15</Steel>
     </butcherProducts>
   </ThingDef>
 
   <!-- Lancer - fast mid-range shooter -->
   
-  <ThingDef ParentName="BaseReplicaWalker">
+  <ThingDef Name="LancerDroneWalker" ParentName="BaseDroneWalker">
     <defName>Drone_Lancer</defName>
-    <label>replica lancer</label>
-    <description>Fast human-sized combat mechanoids built for medium and long-range combat. Their bodies are light, making them vulnerable targets at close range - especially in melee combat. \n\nSpacer militaries have always incorporated mechanoids in their ranks, this one is no different from any other.</description>
+    <label>lancer</label>
+    <description>Fast human-sized combat mechanoids built for medium and long-range combat. Their bodies are light, making them vulnerable targets at close range - especially in melee combat.</description>
     <tools>
       <li>
         <label>left fist</label>
+        <labelNoLocation>fist</labelNoLocation>
         <capacities>
           <li>Blunt</li>
         </capacities>
@@ -79,6 +261,7 @@
       </li>
       <li>
         <label>right fist</label>
+        <labelNoLocation>fist</labelNoLocation>
         <capacities>
           <li>Blunt</li>
         </capacities>
@@ -102,21 +285,47 @@
     <race>
       <body>Lancer</body>
       <baseHealthScale>0.72</baseHealthScale>
-      <soundMeleeHitPawn>Pawn_Melee_MechanoidBash_HitPawn</soundMeleeHitPawn>
-      <soundMeleeHitBuilding>Pawn_Melee_MechanoidBash_HitBuilding</soundMeleeHitBuilding>
-      <soundMeleeMiss>Pawn_Melee_MechanoidBash_Miss</soundMeleeMiss>
+      <detritusLeavings>
+        <li>
+          <def>ChunkMechanoidSlag</def>
+          <texOverrideIndex>11</texOverrideIndex>
+          <spawnChance>0.1</spawnChance>
+        </li>
+        <li>
+          <def>ChunkMechanoidSlag</def>
+          <texOverrideIndex>12</texOverrideIndex>
+          <spawnChance>0.1</spawnChance>
+        </li>
+      </detritusLeavings>
     </race>
+    <statBases>
+      <BandwidthCost MayRequire="Ludeon.RimWorld.Biotech">3</BandwidthCost>
+    </statBases>
   </ThingDef>
 
-  <PawnKindDef ParentName="BaseMechanoidKind">
+  <PawnKindDef ParentName="BaseDroneKind">
     <defName>Drone_Lancer</defName>
-    <label>replica lancer</label>
+    <label>lancer</label>
     <race>Drone_Lancer</race>
-    <combatPower>150</combatPower>
+    <combatPower>190</combatPower>
     <lifeStages>
+      <li MayRequire="Ludeon.RimWorld.Biotech">
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Mechanoid/LancerClean</texPath>
+          <maskPath>Things/Pawn/Mechanoid/AllegianceOverlays/Mech_Lancer</maskPath>
+          <shaderType>CutoutWithOverlay</shaderType>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>1.5</drawSize>
+          <shadowData>
+            <volume>(0.4, 0.8, 0.4)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
       <li>
         <bodyGraphicData>
           <texPath>Things/Pawn/Mechanoid/Lancer</texPath>
+          <maskPath>Things/Pawn/Mechanoid/AllegianceOverlays/Mech_Lancer</maskPath>
+          <shaderType>CutoutWithOverlay</shaderType>
           <graphicClass>Graphic_Multi</graphicClass>
           <drawSize>1.5</drawSize>
           <shadowData>
@@ -129,18 +338,21 @@
     <weaponTags>
       <li>MechanoidGunMedium</li>
     </weaponTags>
+    <techHediffsChance>1</techHediffsChance>
+    <techHediffsMoney>9999~9999</techHediffsMoney>
   </PawnKindDef>
 
 
   <!-- Scyther - fast melee -->
 
-  <ThingDef ParentName="BaseReplicaWalker">
+  <ThingDef ParentName="BaseDroneWalker">
     <defName>Drone_Scyther</defName>
-    <label>replica scyther</label>
-    <description>Fast, spindly, human-sized combat mechanoids specializing in rapid approach and close-range combat. Their bodies are covered in points and blades, but their mostly use two arm blades to lop off limbs or gut their victims alive. \n\nSpacer militaries have always incorporated mechanoids in their ranks, this one is no different from any other.</description>
+    <label>scyther</label>
+    <description>Fast, spindly, human-sized combat mechanoids specializing in rapid approach and close-range combat. Their bodies are covered in points and blades, but they mostly use their two arm blades to lop off limbs or gut their victims alive.</description>
     <tools>
       <li>
         <label>left blade</label>
+        <labelNoLocation>blade</labelNoLocation>
         <capacities>
           <li>Cut</li>
           <li>Stab</li>
@@ -152,6 +364,7 @@
       </li>
       <li>
         <label>right blade</label>
+        <labelNoLocation>blade</labelNoLocation>
         <capacities>
           <li>Cut</li>
           <li>Stab</li>
@@ -179,18 +392,47 @@
       <soundMeleeHitPawn>Pawn_Melee_MechanoidSlash_HitPawn</soundMeleeHitPawn>
       <soundMeleeHitBuilding>Pawn_Melee_MechanoidSlash_HitBuilding</soundMeleeHitBuilding>
       <soundMeleeMiss>Pawn_Melee_MechanoidSlash_Miss</soundMeleeMiss>
+      <detritusLeavings>
+        <li>
+          <def>ChunkMechanoidSlag</def>
+          <texOverrideIndex>18</texOverrideIndex>
+          <spawnChance>0.1</spawnChance>
+        </li>
+        <li>
+          <def>ChunkMechanoidSlag</def>
+          <texOverrideIndex>15</texOverrideIndex>
+          <spawnChance>0.1</spawnChance>
+        </li>
+      </detritusLeavings>
     </race>
+    <statBases>
+      <BandwidthCost MayRequire="Ludeon.RimWorld.Biotech">2</BandwidthCost>
+    </statBases>
   </ThingDef>
 
-  <PawnKindDef ParentName="BaseMechanoidKind">
+  <PawnKindDef ParentName="BaseDroneKind">
     <defName>Drone_Scyther</defName>
-    <label>replica scyther</label>
+    <label>scyther</label>
     <race>Drone_Scyther</race>
     <combatPower>150</combatPower>
     <lifeStages>
+      <li MayRequire="Ludeon.RimWorld.Biotech">
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Mechanoid/ScytherClean</texPath>
+          <maskPath>Things/Pawn/Mechanoid/AllegianceOverlays/Mech_Scyther</maskPath>
+          <shaderType>CutoutWithOverlay</shaderType>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>1.5</drawSize>
+          <shadowData>
+            <volume>(0.4, 0.8, 0.4)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
       <li>
         <bodyGraphicData>
           <texPath>Things/Pawn/Mechanoid/Scyther</texPath>
+          <maskPath>Things/Pawn/Mechanoid/AllegianceOverlays/Mech_Scyther</maskPath>
+          <shaderType>CutoutWithOverlay</shaderType>
           <graphicClass>Graphic_Multi</graphicClass>
           <drawSize>1.5</drawSize>
           <shadowData>
@@ -203,20 +445,24 @@
     <defendPointRadius>0</defendPointRadius>
     <weaponTags>
     </weaponTags>
+    <techHediffsChance>1</techHediffsChance>
+    <techHediffsMoney>9999~9999</techHediffsMoney>
   </PawnKindDef>
 
   <!-- Pikeman - slow sniper weak at close range -->
   
-  <ThingDef ParentName="BaseReplicaWalker">
+  <ThingDef ParentName="BaseDroneWalker">
     <defName>Drone_Pikeman</defName>
-    <label>replica pikeman</label>
-    <description>A clunky multi-legged combat mechanoid specialized as a long-range weapons platform. While effective at distance, it is weak in close-range fights and in melee combat.\n\nVeterans of mechanoid wars know that often, the safest place to be around a pikeman is touching it. \n\nSpacer militaries have always incorporated mechanoids in their ranks, this one is no different from any other.</description>
+    <label>pikeman</label>
+    <description>A clunky multi-legged combat mechanoid specialized as a long-range weapons platform. While effective at distance, it is weak in close-range fights and in melee combat.\n\nVeterans of mechanoid wars know that often, the safest place to be around a pikeman is touching it.</description>
     <statBases>
       <MoveSpeed>2.5</MoveSpeed>
+      <BandwidthCost MayRequire="Ludeon.RimWorld.Biotech">2</BandwidthCost>
     </statBases>
     <tools>
       <li>
         <label>front left leg</label>
+        <labelNoLocation>leg</labelNoLocation>
         <capacities>
           <li>Blunt</li>
         </capacities>
@@ -227,6 +473,7 @@
       </li>
       <li>
         <label>front right leg</label>
+        <labelNoLocation>leg</labelNoLocation>
         <capacities>
           <li>Blunt</li>
         </capacities>
@@ -250,9 +497,6 @@
     <race>
       <body>Pikeman</body>
       <baseHealthScale>0.85</baseHealthScale>
-      <soundMeleeHitPawn>Pawn_Melee_MechanoidBash_HitPawn</soundMeleeHitPawn>
-      <soundMeleeHitBuilding>Pawn_Melee_MechanoidBash_HitBuilding</soundMeleeHitBuilding>
-      <soundMeleeMiss>Pawn_Melee_MechanoidBash_Miss</soundMeleeMiss>
       <lifeStageAges Inherit="False">
         <li>
           <def>MechanoidFullyFormed</def>
@@ -261,25 +505,58 @@
           <soundDeath>Pawn_Mech_Pikeman_Death</soundDeath>
           <soundCall>Pawn_Mech_Pikeman_Call</soundCall>
         </li>
+        <li MayRequire="Ludeon.RimWorld.Biotech">
+          <def>MechanoidFullyFormed</def>
+          <minAge>100</minAge>
+          <soundWounded>Pawn_Mech_Pikeman_Wounded</soundWounded>
+          <soundDeath>Pawn_Mech_Pikeman_Death</soundDeath>
+          <soundCall>Pawn_Mech_Pikeman_Call</soundCall>
+        </li>
       </lifeStageAges>
+      <detritusLeavings>
+        <li>
+          <def>ChunkMechanoidSlag</def>
+          <texOverrideIndex>11</texOverrideIndex>
+          <spawnChance>0.1</spawnChance>
+        </li>
+        <li>
+          <def>ChunkMechanoidSlag</def>
+          <texOverrideIndex>16</texOverrideIndex>
+          <spawnChance>0.1</spawnChance>
+        </li>
+        <li>
+          <def>ChunkMechanoidSlag</def>
+          <texOverrideIndex>1</texOverrideIndex>
+          <spawnChance>0.1</spawnChance>
+        </li>
+      </detritusLeavings>
     </race>
-    <comps>
-      <li Class="SpawnersandDrones.CompProperties_DeathOnDownedChance">
-        <DeathChance>1.0</DeathChance>
-      </li>
-    </comps>
   </ThingDef>
 
-  <PawnKindDef ParentName="BaseMechanoidKind">
+  <PawnKindDef ParentName="BaseDroneKind">
     <defName>Drone_Pikeman</defName>
-    <label>replica pikeman</label>
+    <label>pikeman</label>
     <labelPlural>pikemen</labelPlural>
     <race>Drone_Pikeman</race>
     <combatPower>110</combatPower>
     <lifeStages>
-      <li>
+      <li MayRequire="Ludeon.RimWorld.Biotech"> 
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Mechanoid/PikemanClean</texPath>
+          <maskPath>Things/Pawn/Mechanoid/AllegianceOverlays/Mech_Pikeman</maskPath>
+          <shaderType>CutoutWithOverlay</shaderType>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>2.4</drawSize>
+          <shadowData>
+            <volume>(0.4, 0.8, 0.4)</volume>
+          </shadowData>
+        </bodyGraphicData>
+      </li>
+      <li> 
         <bodyGraphicData>
           <texPath>Things/Pawn/Mechanoid/Pikeman</texPath>
+          <maskPath>Things/Pawn/Mechanoid/AllegianceOverlays/Mech_Pikeman</maskPath>
+          <shaderType>CutoutWithOverlay</shaderType>
           <graphicClass>Graphic_Multi</graphicClass>
           <drawSize>2.4</drawSize>
           <shadowData>
@@ -292,8 +569,8 @@
     <weaponTags>
       <li>MechanoidGunLongRange</li>
     </weaponTags>
+    <techHediffsChance>1</techHediffsChance>
+    <techHediffsMoney>9999~9999</techHediffsMoney>
   </PawnKindDef>
-
-
 
 </Defs>

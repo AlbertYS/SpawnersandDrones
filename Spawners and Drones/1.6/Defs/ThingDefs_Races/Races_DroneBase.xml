@@ -19,14 +19,20 @@
       <foodType>None</foodType>
       <lifeExpectancy>2500</lifeExpectancy>
       <bloodDef>Filth_MachineBits</bloodDef>
+      <soundCallIntervalRange>8000~40000</soundCallIntervalRange>
+      <soundCallIntervalFriendlyFactor>2</soundCallIntervalFriendlyFactor>
+      <canFlyInVacuum>true</canFlyInVacuum>
     </race>
     <comps>
       <li Class="SpawnersandDrones.CompProperties_DeathOnDownedChance">
         <DeathChance>1.0</DeathChance>
       </li>
-      <li Class="CompProperties_CanBeDormant"/>
+      <li Class="CompProperties_CanBeDormant">
+        <compClass>CompMechanoid</compClass>
+      </li>
       <li Class="CompProperties_WakeUpDormant">
         <wakeUpOnDamage>true</wakeUpOnDamage>
+        <wakeUpCheckRadius>30</wakeUpCheckRadius>
         <wakeUpSound>MechanoidsWakeUp</wakeUpSound>
       </li>
     </comps>
@@ -36,12 +42,14 @@
     <defaultFactionType>Mechanoid</defaultFactionType>
     <aiAvoidCover>true</aiAvoidCover>
     <destroyGearOnDrop>true</destroyGearOnDrop>
+    <canStrip>false</canStrip>
   </PawnKindDef>
 
   <PawnKindDef Name="BaseDroneEliteKind" Abstract="True">
     <defaultFactionType>Mechanoid</defaultFactionType>
     <aiAvoidCover>false</aiAvoidCover>
     <destroyGearOnDrop>true</destroyGearOnDrop>
+    <forceNormalGearQuality>true</forceNormalGearQuality>
   </PawnKindDef>
 
 

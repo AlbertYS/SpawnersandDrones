@@ -95,7 +95,9 @@
       <comps>
         <li Class="CompProperties_SpawnerPawn">
           <spawnablePawnKinds>
-            <li>Drone_Centipede</li>
+            <li>Drone_CentipedeGunner</li>
+            <li>Drone_CentipedeBurner</li>
+            <li>Drone_CentipedeBlaster</li>
           </spawnablePawnKinds>
           <chooseSingleTypeToSpawn>True</chooseSingleTypeToSpawn>
           <nextSpawnInspectStringKey>MechAssemblyCompleteIn</nextSpawnInspectStringKey>
